@@ -1,0 +1,48 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nginx
+  namespace: default
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+        - name: wp-data-storage
+          persistentVolumeClaim:
+            claimName: wp-data-claim
+      containers:
+        - name: nginx
+          image: docker.io/nausicaan/nginx:1.27.0-wordpress
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
+            limits:
+              cpu: "300m"
+              memory: "150Mi"
+          volumeMounts:
+            - mountPath: /data/www
+              name: wp-data-storage
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+...

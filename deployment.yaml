@@ -1,0 +1,53 @@
+---
+- name: Kubernetes WordPress Assembly
+  hosts: darwin
+  connection: local
+  vars_files: defaults/main.yaml
+  gather_facts: false
+  ignore_errors: true
+  tasks:
+    - name: Clear existing Minikube Nodes
+      ansible.builtin.command: minikube delete --all
+    - name: Create a new Minikube Node
+      ansible.builtin.command: minikube start
+    - name: Sleep for 3 seconds and continue with play
+      ansible.builtin.wait_for:
+        timeout: 3
+      delegate_to: localhost
+    - name: Create MariaDB Volume
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pv-mdb.yaml
+    - name: Create MariaDB Volume Claim
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pvc-mdb.yaml
+    - name: Sleep for 3 seconds and continue with play
+      ansible.builtin.wait_for:
+        timeout: 3
+      delegate_to: localhost
+    - name: Create WordPress Volume
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pv-wp.yaml
+    - name: Create WordPress Volume Claim
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pvc-wp.yaml
+    - name: Sleep for 3 seconds and continue with play
+      ansible.builtin.wait_for:
+        timeout: 3
+      delegate_to: localhost
+    - name: Create MariaDB Secret
+      ansible.builtin.command: kubectl create secret generic mariadb --from-literal=MARIADB_DATABASE={{ DATABASE }} --from-literal=MARIADB_USER={{ DB_USER }} --from-literal=MARIADB_PASSWORD={{ PASSWORD }} --from-literal=MARIADB_ROOT_PASSWORD={{ ROOT_PASSWORD }}
+    - name: Create MariaDB Deployment
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-mdb.yaml
+    - name: Create MariaDB Service
+      ansible.builtin.command: kubectl expose deployment mariadb --port=3306
+    - name: Create WordPress Deployment
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-wp.yaml
+    - name: Create WordPress Service
+      ansible.builtin.command: kubectl expose deployment wordpress --port=9000
+    - name: Create NGiNX Deployment
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-nginx.yaml
+    - name: Create NGiNX Service
+      ansible.builtin.command: kubectl expose deployment nginx --port=8080 --type=NodePort
+    - name: Sleep for 3 seconds and continue with play
+      ansible.builtin.wait_for:
+        timeout: 3
+      delegate_to: localhost
+    - name: Enable all Minikube Dashboard features
+      ansible.builtin.command: minikube addons enable metrics-server
+...
