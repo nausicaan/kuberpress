@@ -31,7 +31,7 @@
         timeout: 3
       delegate_to: localhost
     - name: Create MariaDB Secret
-      ansible.builtin.command: kubectl create secret generic mariadb --from-literal=MARIADB_DATABASE={{ DATABASE }} --from-literal=MARIADB_USER={{ DB_USER }} --from-literal=MARIADB_PASSWORD={{ PASSWORD }} --from-literal=MARIADB_ROOT_PASSWORD={{ ROOT_PASSWORD }}
+      ansible.builtin.command: kubectl create secret generic mariadb --from-literal=MARIADB_DATABASE={{ DB_NAME }} --from-literal=MARIADB_USER={{ DB_USER }} --from-literal=MARIADB_PASSWORD={{ DB_PASSWORD }} --from-literal=MARIADB_ROOT_PASSWORD={{ DB_ROOT_PASSWORD }}
     - name: Create MariaDB Deployment
       ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-mdb.yaml
     - name: Create MariaDB Service
