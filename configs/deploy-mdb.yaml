@@ -22,7 +22,7 @@ spec:
             claimName: db-data-claim
       containers:
         - name: mariadb
-          image: docker.io/nausicaan/mariadb:11.3
+          image: docker.io/nausicaan/mariadb:11.4
           resources:
             requests:
               cpu: "300m"

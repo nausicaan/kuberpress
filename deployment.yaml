@@ -6,14 +6,6 @@
   gather_facts: false
   ignore_errors: true
   tasks:
-    - name: Clear existing Minikube Nodes
-      ansible.builtin.command: minikube delete --all
-    - name: Create a new Minikube Node
-      ansible.builtin.command: minikube start
-    - name: Sleep for 3 seconds and continue with play
-      ansible.builtin.wait_for:
-        timeout: 3
-      delegate_to: localhost
     - name: Create MariaDB Volume
       ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pv-mdb.yaml
     - name: Create MariaDB Volume Claim
@@ -35,15 +27,15 @@
     - name: Create MariaDB Deployment
       ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-mdb.yaml
     - name: Create MariaDB Service
-      ansible.builtin.command: kubectl expose deployment mariadb --port=3306
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/service-mdb.yaml
     - name: Create WordPress Deployment
       ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-wp.yaml
     - name: Create WordPress Service
-      ansible.builtin.command: kubectl expose deployment wordpress --port=9000
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/service-wp.yaml
     - name: Create NGiNX Deployment
       ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-nginx.yaml
     - name: Create NGiNX Service
-      ansible.builtin.command: kubectl expose deployment nginx --port=8080 --type=NodePort
+      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/service-nginx.yaml
     - name: Sleep for 3 seconds and continue with play
       ansible.builtin.wait_for:
         timeout: 3

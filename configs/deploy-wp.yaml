@@ -22,7 +22,7 @@ spec:
             claimName: wp-data-claim
       containers:
         - name: wordpress
-          image: docker.io/nausicaan/wordpress:8.3-fpm
+          image: docker.io/nausicaan/wordpress:8.2-fpm
           resources:
             requests:
               cpu: "100m"
