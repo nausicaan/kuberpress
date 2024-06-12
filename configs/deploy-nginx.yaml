@@ -1,6 +1,6 @@
 ---
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: nginx
   namespace: default
@@ -22,7 +22,9 @@ spec:
             claimName: wp-data-claim
       containers:
         - name: nginx
-          image: docker.io/nausicaan/nginx:1.27.0-wordpress
+          image: nausicaan/nginx:1.27.0-wordpress
+          ports:
+          - containerPort: 8080
           resources:
             requests:
               cpu: "100m"

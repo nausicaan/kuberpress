@@ -1,6 +1,6 @@
 ---
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: mariadb
   namespace: default
@@ -22,13 +22,15 @@ spec:
             claimName: db-data-claim
       containers:
         - name: mariadb
-          image: docker.io/nausicaan/mariadb:11.4
+          image: nausicaan/mariadb:11.4
+          ports:
+          - containerPort: 3306
           resources:
             requests:
-              cpu: "300m"
+              cpu: "100m"
               memory: "300Mi"
             limits:
-              cpu: "950m"
+              cpu: "250m"
               memory: "600Mi"
           env:
             - name: MARIADB_DATABASE

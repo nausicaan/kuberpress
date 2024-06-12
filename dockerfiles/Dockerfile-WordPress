@@ -1,7 +1,7 @@
 FROM php:8.2-fpm
 
 # Declare the base Composer version
-ENV COMPOSER_ROOT_VERSION='2.7.6'
+ENV COMPOSER_ROOT_VERSION='2.7.7'
 
 # Install Composer
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
 	&& docker-php-ext-enable imagick \
 	&& mkdir -p /.cache /data/www \
     # Claim ownership for the www-data user
-    && chown -R www-data:www-data /.cache /data /var/www \
+    && chown -R www-data:www-data /.cache /var/www \
 	# Install WP-CLI
 	&& curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
@@ -32,5 +32,4 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory
 WORKDIR /data/www
 
-# Switch to the www-data user
 USER www-data

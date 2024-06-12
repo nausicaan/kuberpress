@@ -1,6 +1,6 @@
 ---
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: wordpress
   namespace: default
@@ -22,7 +22,9 @@ spec:
             claimName: wp-data-claim
       containers:
         - name: wordpress
-          image: docker.io/nausicaan/wordpress:8.2-fpm
+          image: nausicaan/wordpress:8.2-fpm
+          ports:
+          - containerPort: 9000
           resources:
             requests:
               cpu: "100m"
