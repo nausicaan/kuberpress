@@ -22,7 +22,7 @@ spec:
             claimName: db-data-claim
       containers:
         - name: mariadb
-          image: nausicaan/mariadb:11.4
+          image: ghcr.io/nausicaan/mariadb:11.4
           ports:
           - containerPort: 3306
           resources:

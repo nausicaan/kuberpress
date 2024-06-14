@@ -7,17 +7,17 @@
   ignore_errors: true
   tasks:
     - name: Create MariaDB Volume
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pv-mdb.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/pv-mdb.yaml
     - name: Create MariaDB Volume Claim
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pvc-mdb.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/pvc-mdb.yaml
     - name: Sleep for 3 seconds and continue with play
       ansible.builtin.wait_for:
         timeout: 3
       delegate_to: localhost
     - name: Create WordPress Volume
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pv-wp.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/pv-wp.yaml
     - name: Create WordPress Volume Claim
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/pvc-wp.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/pvc-wp.yaml
     - name: Sleep for 3 seconds and continue with play
       ansible.builtin.wait_for:
         timeout: 3
@@ -25,17 +25,17 @@
     - name: Create MariaDB Secret
       ansible.builtin.command: kubectl create secret generic mariadb --from-literal=MARIADB_DATABASE={{ DB_NAME }} --from-literal=MARIADB_USER={{ DB_USER }} --from-literal=MARIADB_PASSWORD={{ DB_PASSWORD }} --from-literal=MARIADB_ROOT_PASSWORD={{ DB_ROOT_PASSWORD }}
     - name: Create MariaDB Deployment
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-mdb.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/deploy-mdb.yaml
     - name: Create MariaDB Service
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/service-mdb.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/service-mdb.yaml
     - name: Create WordPress Deployment
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-wp.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/deploy-wp.yaml
     - name: Create WordPress Service
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/service-wp.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/service-wp.yaml
     - name: Create NGiNX Deployment
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/deploy-nginx.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/deploy-nginx.yaml
     - name: Create NGiNX Service
-      ansible.builtin.command: kubectl apply -f {{ CONFIGS }}/service-nginx.yaml
+      ansible.builtin.command: kubectl apply -f {{ MANIFESTS }}/service-nginx.yaml
     - name: Sleep for 3 seconds and continue with play
       ansible.builtin.wait_for:
         timeout: 3

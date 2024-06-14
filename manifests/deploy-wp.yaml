@@ -2,36 +2,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: wordpress
   namespace: default
   labels:
-    app: nginx
+    app: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: wordpress
   template:
     metadata:
       labels:
-        app: nginx
+        app: wordpress
     spec:
       volumes:
         - name: wp-data-storage
           persistentVolumeClaim:
             claimName: wp-data-claim
       containers:
-        - name: nginx
-          image: nausicaan/nginx:1.27.0-wordpress
+        - name: wordpress
+          image: ghcr.io/nausicaan/wordpress:8.2-fpm
           ports:
-          - containerPort: 8080
+          - containerPort: 9000
           resources:
             requests:
               cpu: "100m"
-              memory: "50Mi"
+              memory: "150Mi"
             limits:
               cpu: "300m"
-              memory: "150Mi"
+              memory: "300Mi"
           volumeMounts:
             - mountPath: /data/www
               name: wp-data-storage
@@ -45,6 +45,6 @@ spec:
       schedulerName: default-scheduler
   strategy:
     type: Recreate
-  revisionHistoryLimit: 10
+  revisionHistoryLimit: 3
   progressDeadlineSeconds: 600
 ...
