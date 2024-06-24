@@ -72,7 +72,13 @@ ansible-playbook images.yaml -i ~/inventory.yaml
 Create the deployments:
 
 ```bash
-ansible-playbook deployment.yaml -i ~/inventory.yaml
+ansible-playbook assets.yaml -i ~/inventory.yaml
+```
+
+Check that the deployments are running:
+
+```bash
+minikube dashboard
 ```
 
 Create the Roots/Bedrock project:
