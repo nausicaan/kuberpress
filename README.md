@@ -67,31 +67,6 @@ ansible-playbook images.yaml -i ~/inventory.yaml
 
 `images.yaml` is inside the `dockerfiles` folder
 
-### Extras
-
-MariaDB requires a `.env` file with the following values:
-
-```bash
-DB_NAME=''
-DB_USER=''
-DB_PASSWORD=''
-DB_ROOT_PASSWORD=''
-DB_HOST=''
-WP_ENV=''
-WP_HOME='http://'
-WP_SITEURL='http://wp'
-
-# Generate your keys here: https://roots.io/salts.html
-AUTH_KEY=''
-SECURE_AUTH_KEY=''
-LOGGED_IN_KEY=''
-NONCE_KEY=''
-AUTH_SALT=''
-SECURE_AUTH_SALT=''
-LOGGED_IN_SALT=''
-NONCE_SALT=''
-```
-
 ## Run
 
 Create the deployments:
