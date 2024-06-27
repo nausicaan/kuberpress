@@ -1,9 +1,9 @@
 FROM nginx:1.27.0
 
 # Declare variables
-ARG UID="nginx"
-ARG GID="nginx"
-ARG CONFIG="wordpress.conf"
+ARG UID
+ARG GID
+ARG CONFIG
 
 # Install the GNU Compiler Collection
 RUN apt-get update && apt-get install -y \
@@ -17,8 +17,7 @@ RUN apt-get update && apt-get install -y \
         /var/cache/nginx/scgi_temp \
         /var/cache/nginx/uwsgi_temp \
         /etc/nginx/sites-available \
-        /etc/nginx/sites-enabled \
-        /etc/nginx/blocklists
+        /etc/nginx/sites-enabled
 
 # Copy the NGINX configuration files
 COPY ${CONFIG} /etc/nginx/sites-available
@@ -29,9 +28,3 @@ COPY nginx.conf /etc/nginx
 RUN ln -s /etc/nginx/sites-available/${CONFIG} /etc/nginx/sites-enabled/${CONFIG} \
     # Claim ownership for a non-root user
     && chown -R ${UID}:${GID} /usr/share/nginx /var/log/nginx /etc/nginx
-
-# Set the working directory
-WORKDIR /data/www
-
-# Switch to the NGINX user
-USER www-data

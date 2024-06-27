@@ -1,8 +1,8 @@
 FROM php:8.2-fpm
 
 # Declare variables
-ARG UID="www-data"
-ARG GID="www-data"
+ARG UID
+ARG GID
 
 # Declare the base Composer version
 ENV COMPOSER_ROOT_VERSION='2.7.7'
@@ -32,6 +32,3 @@ RUN apt-get update && apt-get install -y \
 	&& mv wp-cli.phar /usr/local/bin/wp \
     # Claim ownership for a non-root user
     && chown -R ${UID}:${GID} /.cache /data/www
-
-# Set the working directory
-WORKDIR /data/www
