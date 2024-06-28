@@ -11,12 +11,12 @@
       ansible.builtin.command: docker image tag mariadb:latest {{ MARIADB }}
     - name: Push the MariaDB build to DockerHub
       ansible.builtin.command: docker push {{ MARIADB }}
-    - name: Run the WordPress Dockerfile
-      ansible.builtin.command: docker build -f Dockerfile-WordPress -t wordpress .
-    - name: Tag the WordPress build
-      ansible.builtin.command: docker image tag wordpress:latest {{ WORDPRESS }}
-    - name: Push the WordPress build to DockerHub
-      ansible.builtin.command: docker push {{ WORDPRESS }}
+    - name: Run the PHP Dockerfile
+      ansible.builtin.command: docker build -f Dockerfile-PHP -t php .
+    - name: Tag the PHP build
+      ansible.builtin.command: docker image tag php:latest {{ PHP }}
+    - name: Push the PHP build to DockerHub
+      ansible.builtin.command: docker push {{ PHP }}
     - name: Run the NGiNX Dockerfile
       ansible.builtin.command: docker build -f Dockerfile-NGiNX -t nginx .
     - name: Tag the NGiNX build
