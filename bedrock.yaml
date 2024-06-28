@@ -12,8 +12,8 @@
     - name: Trim the pod/ prefix from the variable value
       ansible.builtin.set_fact:
         podname: "{{ podname.stdout | regex_replace('pod/', '', count=1) }}"
-    - name: Claim ownership of the data folder for the www-data user
-      ansible.builtin.command: kubectl exec {{ podname }} -- chown -R www-data:www-data /data
+    # - name: Claim ownership of the html folder for the www-data user
+    #   ansible.builtin.command: kubectl exec {{ podname }} -- chown -R www-data:www-data /var/www/html
     - name: Create a new Bedrock project
       ansible.builtin.command: kubectl exec {{ podname }} -- composer create-project roots/bedrock
     - name: Sleep for 3 seconds and continue with play
@@ -37,7 +37,7 @@
         line: "WP_SITEURL='{{ nodeport.stdout }}/wp'"
         mode: '0644'
     - name: Copy the modified .env file to the WordPress pod
-      ansible.builtin.command: kubectl cp {{ HOME }}/.env {{ podname }}:/data/www/bedrock/
+      ansible.builtin.command: kubectl cp {{ HOME }}/.env {{ podname }}:/var/www/html/bedrock/
     - name: Copy the favicon.ico file to the WordPress pod
-      ansible.builtin.command: kubectl cp {{ HOME }}/dockerfiles/favicon.ico {{ podname }}:/data/www/bedrock/web/
+      ansible.builtin.command: kubectl cp {{ HOME }}/dockerfiles/favicon.ico {{ podname }}:/var/www/html/bedrock/web/
 ...

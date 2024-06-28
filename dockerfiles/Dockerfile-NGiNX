@@ -1,10 +1,5 @@
 FROM nginx:1.27.0
 
-# Declare variables
-ARG UID
-ARG GID
-ARG CONFIG
-
 # Install the GNU Compiler Collection
 RUN apt-get update && apt-get install -y \
         gcc mono-mcs \
@@ -20,11 +15,11 @@ RUN apt-get update && apt-get install -y \
         /etc/nginx/sites-enabled
 
 # Copy the NGINX configuration files
-COPY ${CONFIG} /etc/nginx/sites-available
+COPY wordpress.conf /etc/nginx/sites-available
 COPY nginx.pid /var/log/nginx
 COPY nginx.conf /etc/nginx
 
 # Create the symbolic link
-RUN ln -s /etc/nginx/sites-available/${CONFIG} /etc/nginx/sites-enabled/${CONFIG} \
-    # Claim ownership for a non-root user
-    && chown -R ${UID}:${GID} /usr/share/nginx /var/log/nginx /etc/nginx
+RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/wordpress.conf \
+    # Claim ownership for the nginx user
+    && chown -R nginx:nginx /usr/share/nginx /var/log/nginx /etc/nginx

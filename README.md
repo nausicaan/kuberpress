@@ -49,6 +49,18 @@ SECURE_AUTH_SALT=''
 LOGGED_IN_SALT=''
 NONCE_SALT=''
 ```
+
+4. An `inventory.yaml` file for Ansible to reference the hosts value.
+
+```ansible
+---
+apple:
+  hosts:
+    darwin:
+      ansible_connection: local
+...
+```
+
 ## Build
 
 Individually, the images can be built, tagged, and pushed to a repo for easy access.

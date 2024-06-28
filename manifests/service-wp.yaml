@@ -9,6 +9,7 @@ spec:
   clusterIP: None
   ports:
   - port: 9000
+    name: 9000-tcp
   selector:
     app: wordpress
 ...

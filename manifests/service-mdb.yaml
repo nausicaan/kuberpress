@@ -9,6 +9,7 @@ spec:
   clusterIP: None
   ports:
   - port: 3306
+    name: 3306-tcp
   selector:
     app: mariadb
 ...
